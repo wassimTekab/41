@@ -1,0 +1,37 @@
+datasource postgres {
+  provider = "postgresql"
+  url      = env("POSTGRESQL_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String    @id @default(dbgenerated("gen_random_uuid()"))
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
+  firstName String?
+  lastName  String?
+  username  String    @unique
+  password  String
+  roles     String[]
+}
+
+model AppConfig {
+  id        String    @id @default(dbgenerated("gen_random_uuid()"))
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
+  value     String?
+  key       String?   @unique
+}
+
+model Book {
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+  id        String    @id @default(dbgenerated("gen_random_uuid()"))
+  price     Float?
+  updatedAt DateTime? @updatedAt
+}
